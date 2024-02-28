@@ -4,12 +4,16 @@ const Login=require("./login")
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken")
 const mongoose=require("mongoose")
+
+
 const route=express.Router();
 require("./conn.js")
 
 route.get("/",(req,res)=>{
     res.end("home page")
 })
+
+
 
 //======== sign In and sign Up =======
 route.post('/signUp',async(req,res)=>{
@@ -27,9 +31,8 @@ route.post('/signUp',async(req,res)=>{
     
 })
 
-
-    route.post("/signIn", async (req, res) => {
-      try {
+route.post('/signIn',async(req,res)=>{  
+  try {
         const { username, userpass } = req.body;
     
         if (!username || !userpass) {

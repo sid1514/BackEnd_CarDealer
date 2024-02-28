@@ -8,6 +8,7 @@ const login=new mongoose.Schema(
    userpass:{type:String},
    phoneNumber:{type:Number},
    userEmail:{type:String},
+   userImage:{type:String},
    //token:{type:String},
 
   favoriteCar:{
