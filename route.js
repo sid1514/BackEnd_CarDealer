@@ -17,7 +17,7 @@ route.get("/", (req, res) => {
 route.post(
   "/signUp",
   asyncHandler(async (req, res) => {
-    const { userid, username, userpass, phoneNumber, userEmail } = req.body;
+    const { username, userpass, phoneNumber, userEmail } = req.body;
     let user = new Login({
       username,
       userpass,
