@@ -18,12 +18,18 @@ route.post(
   "/signUp",
   asyncHandler(async (req, res) => {
     const { username, userpass, phoneNumber, userEmail } = req.body;
+    const userFound = await Login.findOne({ username });
+
+    if (userFound) {
+      return res.status(404).send("Username already created create another");
+    }
     let user = new Login({
       username,
       userpass,
       phoneNumber,
       userEmail,
     });
+
     await user.save();
     res.send("user Created");
   })
@@ -70,7 +76,7 @@ route.put(
     const updateFields = req.body;
 
     const updatedUser = await Login.findOneAndUpdate(
-      { userid: userid },
+      { _id: userid },
       updateFields,
       { new: true }
     );
@@ -200,17 +206,7 @@ route.delete(
   })
 );
 
-route.get(
-  "/getMaxUserId",
-  asyncHandler(async (req, res) => {
-    const maxUserIdUser = await Login.aggregate([
-      { $sort: { userid: -1 } },
-      { $limit: 1 },
-    ]);
 
-    res.send(maxUserIdUser);
-  })
-);
 
 //==========favorite car and booked car================================
 route.post(
@@ -219,7 +215,7 @@ route.post(
     const { userid, favoriteCar } = req.body;
 
     const user = await Login.findOneAndUpdate(
-      { userid: userid },
+      { _id: userid },
       { $set: { favoriteCar: favoriteCar } },
       { new: true }
     );
@@ -234,7 +230,7 @@ route.post(
     const { userid, bookedCar } = req.body;
 
     const user = await Login.findOneAndUpdate(
-      { userid: userid },
+      { _id: userid },
       { $set: { bookedCar: bookedCar } },
       { new: true }
     );
@@ -249,7 +245,7 @@ route.post(
     const { userid } = req.body;
 
     const user = await Login.findOneAndUpdate(
-      { userid: userid },
+      { _id: userid },
       { $set: { bookedCar: null } },
       { new: true }
     );
@@ -263,7 +259,7 @@ route.get(
   asyncHandler(async (req, res) => {
     const { userId } = req.params; // Get the userId from the URL parameter
 
-    const user = await Login.findOne({ userid: userId });
+    const user = await Login.findOne({ _id: userId });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -279,7 +275,7 @@ route.get(
   asyncHandler(async (req, res) => {
     const { userId } = req.params; // Get the userId from the URL parameter
 
-    const user = await Login.findOne({ userid: userId });
+    const user = await Login.findOne({ _id: userId });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
