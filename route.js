@@ -206,8 +206,6 @@ route.delete(
   })
 );
 
-
-
 //==========favorite car and booked car================================
 route.post(
   "/favoriteCar",
